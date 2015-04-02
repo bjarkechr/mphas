@@ -18,5 +18,5 @@ mphasApp.config(['$routeProvider',
 	}]);
 
 mphasApp.factory('HeatingEntries', ['$resource', function($resource){
-	return $resource('/mphas/rest/HeatingEntries/:entryId', null, {});
+	return $resource('/mphas/server/HeatingEntries/:entryId', null, {});
 }])
