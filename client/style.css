@@ -1,0 +1,65 @@
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+body
+{
+
+}
+
+.jumbotron
+{
+    font-family: 'Special Elite', cursive;
+    background: #990000;
+    color: #ffffff;
+    text-align: center;
+}
+
+.jumbotron h1
+{
+    font-weight: bold;
+}
+.right-alignt
+{
+    float: right;
+    vertical-align: middle;
+}
+
+/*
+body
+{
+    font-family: 'Roboto', sans-serif;
+    font-size: small;
+    background: #300000;
+}
+
+div.content
+{
+    width: 900px;
+    margin: auto;
+    background: white;
+    min-height: 500px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 10px;
+}
+
+div#caption
+{
+    background: #990000;
+    width: 900px;
+    margin: auto;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding:10px;
+}
+
+h1#captionheader
+{
+    font-family: 'Special Elite', cursive;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 300%;
+    margin-left:auto;
+    margin-right:auto;
+    width:70%;
+}
+*/
