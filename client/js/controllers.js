@@ -9,9 +9,16 @@ mphasControllers.controller('AddEntryCtrl', ['$scope', 'MeterReadings', 'DataFor
 
 		$scope.orderByPredicate = '-readingTs';
 
+		//$scope.heatingText = null;
+		//$scope.waterText = null;
+
 		$scope.readingTsDate = new Date();
 		$scope.readingTsTime = new Date();
 		$scope.querying = false;
+
+		$scope.tabActivity=[false,false];
+
+		//tabActivity.indexOf(true)
 		
 		$scope.queryEntries = function ()
 		{
@@ -48,7 +55,7 @@ mphasControllers.controller('AddEntryCtrl', ['$scope', 'MeterReadings', 'DataFor
 
 		$scope.queryEntries();
 
-		$scope.addEntry = function()
+		$scope.addSingleEntry = function()
 		{
 			var newEntry = new MeterReadings();
 			
@@ -71,6 +78,8 @@ mphasControllers.controller('AddEntryCtrl', ['$scope', 'MeterReadings', 'DataFor
 			newEntry.heating = $scope.heatingText;
 			newEntry.water = $scope.waterText;
 
+			console.log($scope.heatingText);
+
 			newEntry.$save(function()
 			{			
 				$scope.queryEntries();
@@ -81,6 +90,11 @@ mphasControllers.controller('AddEntryCtrl', ['$scope', 'MeterReadings', 'DataFor
 			{
 				$window.alert(httpResponse.data.message);
 			});
+		};
+
+		$scope.addMultibleReadings = function()
+		{
+
 		};
 
 		$scope.deleteEntry = function(id)

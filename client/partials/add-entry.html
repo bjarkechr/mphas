@@ -2,86 +2,123 @@
 <div class="panel panel-primary">
   <div class="panel-heading"><h4>Add a heating log entry</h4></div>
   <div class="panel-body">
-    <form name="form" role="form" ng-submit="addEntry()" novalidate>
 
-      <div class="form-group {{form.heatingText.$invalid ? 'has-error' : ''}}">
-        <label for="heatingText">Heating</label>
-        <input type="number" ng-model="heatingText" class="form-control" name="heatingText" id="heatingText" required min="0" max="100000" />
-        <span class="help-block" ng-show="form.heatingText.$error.required">Required</span>
-        <span class="help-block" ng-show="form.heatingText.$error.number">Invalid number</span>
-        <span class="help-block" ng-show="form.heatingText.$error.min">Value has to be equal to or higher than 0</span>
-        <span class="help-block" ng-show="form.heatingText.$error.max">Value has to be equal to or lower than 100000</span>
-      </div>
+<!--
+    <tabset>
 
-      <div class="form-group {{form.waterText.$invalid ? 'has-error' : ''}}">
-        <label for="waterText">Water</label>
-        <input type="number" ng-model="waterText" class="form-control" name="waterText" id="waterText" required min="0" max="100000" />
-        <span class="help-block" ng-show="form.waterText.$error.required">Required</span>
-        <span class="help-block" ng-show="form.waterText.$error.number">Invalid number</span>
-        <span class="help-block" ng-show="form.waterText.$error.min">Value has to be equal to or higher than 0</span>
-        <span class="help-block" ng-show="form.waterText.$error.max">Value has to be equal to or lower than 100000</span>
-      </div>
+      <tab heading="Single" active="tabActivity[0]">
 
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" ng-model="useCustomreadingTsDate"> Custom Entry Date
-        </label>
-      </div>
+        <br>
+      -->
 
-      <div collapse="!useCustomreadingTsDate">
-        <div class="row">
-          <div class="col-md-12">
-            <label>Entry Date</label>
+        <form name="form" role="form" ng-submit="addSingleEntry()" novalidate>
+
+          <div class="form-group {{form.heatingText.$invalid ? 'has-error' : ''}}">
+            <label for="heatingText">Heating</label>
+            <input type="number" ng-model="heatingText" class="form-control" name="heatingText" id="heatingText" required min="0" max="100000" />
+            <span class="help-block" ng-show="form.heatingText.$error.required">Required</span>
+            <span class="help-block" ng-show="form.heatingText.$error.number">Invalid number</span>
+            <span class="help-block" ng-show="form.heatingText.$error.min">Value has to be equal to or higher than 0</span>
+            <span class="help-block" ng-show="form.heatingText.$error.max">Value has to be equal to or lower than 100000</span>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-8">
-            <div style="display:inline-block;" class="well well-sm">
-              <div class="row">
-                <div class="col-md-8">
-                  <datepicker ng-model="readingTsDate" ></datepicker>
-                </div>
-                <div class="col-md-2">
-                  <timepicker ng-model="readingTsTime" show-meridian="false" readonly-input="true"></timepicker>
+
+          <div class="form-group {{form.waterText.$invalid ? 'has-error' : ''}}">
+            <label for="waterText">Water</label>
+            <input type="number" ng-model="waterText" class="form-control" name="waterText" id="waterText" required min="0" max="100000" />
+            <span class="help-block" ng-show="form.waterText.$error.required">Required</span>
+            <span class="help-block" ng-show="form.waterText.$error.number">Invalid number</span>
+            <span class="help-block" ng-show="form.waterText.$error.min">Value has to be equal to or higher than 0</span>
+            <span class="help-block" ng-show="form.waterText.$error.max">Value has to be equal to or lower than 100000</span>
+          </div>
+
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="useCustomreadingTsDate"> Custom Entry Date
+            </label>
+          </div>
+
+          <div collapse="!useCustomreadingTsDate">
+            <div class="row">
+              <div class="col-md-12">
+                <label>Reading Date</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-8">
+                <div style="display:inline-block;" class="well well-sm">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <datepicker ng-model="readingTsDate" ></datepicker>
+                    </div>
+                    <div class="col-md-2">
+                      <timepicker ng-model="readingTsTime" show-meridian="false" readonly-input="true"></timepicker>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <button type="submit" ng-disabled="form.$invalid" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-ok"></span> Add</button>
-    </form>    
+          <button type="submit" ng-disabled="form.$invalid" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-ok"></span> Add</button>
+        </form>    
+      
+      <!--
+      </tab>
+
+      <tab heading="Multi" active="tabActivity[1]">
+        <br>
+        
+        <form name="formMulti" role="form" ng-submit="addMultibleReadings()" novalidate>
+          <div class="form-group {{formMulti.readingsText.$invalid ? 'has-error' : ''}}">
+            <label for="heatingText">Readings</label>
+            <textarea ng-model="multiReadingsText" class="form-control" rows="6" name="readingsText" required></textarea>
+            <span class="help-block" ng-show="formMulti.readingsText.$error.required">Required</span>
+          </div>
+
+          <button type="submit" ng-disabled="formMulti.$invalid" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-ok"></span> Add</button>
+        </form>    
+      
+
+      </tab>
+
+    </tabset>
+
+  -->
+
+
+
+
+    
   </div>
 </div>
 
 <div class="panel panel-info">
   <div class="panel-heading">
-    
+
     <h4>List of latest entries <button type="button" class="btn btn-default right-alignt" ng-click="queryEntries()" ng-disabled="querying">
-        <span class="glyphicon glyphicon-refresh"></span> 
+      <span class="glyphicon glyphicon-refresh"></span> 
+    </button>
+  </h4>
+
+</div>
+<div style="clear: both;"></div>
+<table class="table table-striped">
+  <tr>
+    <th>Entry Day</th>
+    <th>Heating</th>
+    <th>Water</th>
+    <th>Delete</th>
+  </tr>
+  <tr ng-repeat="meterReading in meterReadings | orderBy:orderByPredicate: reverse | limitTo:displayLimit">
+    <td>{{meterReading.readingTsDisp}}</td>
+    <td>{{meterReading.heating}}</td>
+    <td>{{meterReading.water}}</td>
+    <td>  
+      <button type="button" class="btn btn-danger btn-xs" ng-click="deleteEntry(meterReading.id)">
+        <span class="glyphicon glyphicon-remove"></span> 
       </button>
-    </h4>
-    
-  </div>
-  <div style="clear: both;"></div>
-  <table class="table table-striped">
-    <tr>
-      <th>Entry Day</th>
-      <th>Heating</th>
-      <th>Water</th>
-      <th>Delete</th>
     </tr>
-    <tr ng-repeat="meterReading in meterReadings | orderBy:orderByPredicate: reverse | limitTo:displayLimit">
-      <td>{{meterReading.readingTsDisp}}</td>
-      <td>{{meterReading.heating}}</td>
-      <td>{{meterReading.water}}</td>
-      <td>  
-        <button type="button" class="btn btn-danger btn-xs" ng-click="deleteEntry(meterReading.id)">
-          <span class="glyphicon glyphicon-remove"></span> 
-        </button>
-      </tr>
-    </table>
+  </table>
 
 
-  </div>
+</div>
