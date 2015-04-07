@@ -24,11 +24,11 @@
 
       <div class="checkbox">
         <label>
-          <input type="checkbox" ng-model="useCustomEntryDate"> Custom Entry Date
+          <input type="checkbox" ng-model="useCustomreadingTsDate"> Custom Entry Date
         </label>
       </div>
 
-      <div collapse="!useCustomEntryDate">
+      <div collapse="!useCustomreadingTsDate">
         <div class="row">
           <div class="col-md-12">
             <label>Entry Date</label>
@@ -39,10 +39,10 @@
             <div style="display:inline-block;" class="well well-sm">
               <div class="row">
                 <div class="col-md-8">
-                  <datepicker ng-model="entryDate" ></datepicker>
+                  <datepicker ng-model="readingTsDate" ></datepicker>
                 </div>
                 <div class="col-md-2">
-                  <timepicker ng-model="entryTime" show-meridian="false" readonly-input="true"></timepicker>
+                  <timepicker ng-model="readingTsTime" show-meridian="false" readonly-input="true"></timepicker>
                 </div>
               </div>
             </div>
@@ -72,12 +72,12 @@
       <th>Water</th>
       <th>Delete</th>
     </tr>
-    <tr ng-repeat="heatingEntry in heatingEntries | orderBy:orderByPredicate: reverse | limitTo:displayLimit">
-      <td>{{heatingEntry.entryDateDisp}}</td>
-      <td>{{heatingEntry.heating}}</td>
-      <td>{{heatingEntry.water}}</td>
+    <tr ng-repeat="meterReading in meterReadings | orderBy:orderByPredicate: reverse | limitTo:displayLimit">
+      <td>{{meterReading.readingTsDisp}}</td>
+      <td>{{meterReading.heating}}</td>
+      <td>{{meterReading.water}}</td>
       <td>  
-        <button type="button" class="btn btn-danger btn-xs" ng-click="deleteEntry(heatingEntry.id)">
+        <button type="button" class="btn btn-danger btn-xs" ng-click="deleteEntry(meterReading.id)">
           <span class="glyphicon glyphicon-remove"></span> 
         </button>
       </tr>

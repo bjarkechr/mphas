@@ -1,40 +1,40 @@
 var mphasControllers = angular.module('mphasControllers', []);
 
-mphasControllers.controller('AddEntryCtrl', ['$scope', 'HeatingEntries', 'DataFormatService', '$window',
-	function($scope, HeatingEntries, DataFormatService, $window){
+mphasControllers.controller('AddEntryCtrl', ['$scope', 'MeterReadings', 'DataFormatService', '$window',
+	function($scope, MeterReadings, DataFormatService, $window){
 
-		$scope.heatingEntries = [];
-		$scope.useCustomEntryDate = false;
+		$scope.meterReadings = [];
+		$scope.useCustomreadingTsDate = false;
 		$scope.displayLimit = 50;	
 
-		$scope.orderByPredicate = '-entryDate';
+		$scope.orderByPredicate = '-readingTs';
 
-		$scope.entryDate = new Date();
-		$scope.entryTime = new Date();
+		$scope.readingTsDate = new Date();
+		$scope.readingTsTime = new Date();
 		$scope.querying = false;
 		
 		$scope.queryEntries = function ()
 		{
-			$scope.heatingEntries = [];
+			$scope.meterReadings = [];
 			$scope.querying = true;
 
-			HeatingEntries.query(null,
+			MeterReadings.query(null,
 				function(data)
 				{
 					data.forEach(function(element)
 					{
-						var heatingEntry = {};
+						var meterReading = {};
 
-						heatingEntry.id = element.id;
-						heatingEntry.heating = element.heating;
-						heatingEntry.water = element.water;
+						meterReading.id = element.id;
+						meterReading.heating = element.heating;
+						meterReading.water = element.water;
 
-						var entryDate = DataFormatService.dateUTCFromArray(element.entryDate);
+						var readingTs = DataFormatService.dateUTCFromArray(element.readingTs);
 
-						heatingEntry.entryDate = entryDate;
-						heatingEntry.entryDateDisp = DataFormatService.dateToString(entryDate);
+						meterReading.readingTs = readingTs;
+						meterReading.readingTsDisp = DataFormatService.dateToString(readingTs);
 
-						$scope.heatingEntries.push(heatingEntry);
+						$scope.meterReadings.push(meterReading);
 
 						$scope.querying = false;
 					},
@@ -50,24 +50,24 @@ mphasControllers.controller('AddEntryCtrl', ['$scope', 'HeatingEntries', 'DataFo
 
 		$scope.addEntry = function()
 		{
-			var newEntry = new HeatingEntries();
+			var newEntry = new MeterReadings();
 			
-			var date = new Date();	
+			var date = new Date();
 
-			if ($scope.useCustomEntryDate)
+			if ($scope.useCustomreadingTsDate)
 			{
 				date = new Date(
-					$scope.entryDate.getFullYear(),
-					$scope.entryDate.getMonth(),
-					$scope.entryDate.getDate(), 
-					$scope.entryTime.getHours(),
-					$scope.entryTime.getMinutes(),
-					$scope.entryTime.getSeconds());
+					$scope.readingTsDate.getFullYear(),
+					$scope.readingTsDate.getMonth(),
+					$scope.readingTsDate.getDate(), 
+					$scope.readingTsTime.getHours(),
+					$scope.readingTsTime.getMinutes(),
+					$scope.readingTsTime.getSeconds());
 			}
 
 			var dateArr = DataFormatService.dateUTCToArray(date);
 			
-			newEntry.entryDate = dateArr;
+			newEntry.readingTs = dateArr;
 			newEntry.heating = $scope.heatingText;
 			newEntry.water = $scope.waterText;
 
@@ -91,7 +91,7 @@ mphasControllers.controller('AddEntryCtrl', ['$scope', 'HeatingEntries', 'DataFo
 			{
 				var parms = {'entryId':id};
 
-				HeatingEntries.delete(parms,
+				MeterReadings.delete(parms,
 					function()
 					{
 						$scope.queryEntries();

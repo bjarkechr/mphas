@@ -1,13 +1,13 @@
 <?php
 
-class HeatingEntryModel
+class MeterReadingModel
 {
 
 	//Properties
 	public $id;
 	public $heating;
 	public $water;
-	public $entryDate;
+	public $readingTs;
 
 	function __construct()
 	{
@@ -18,20 +18,20 @@ class HeatingEntryModel
 
 	public function save()
 	{
-		$mysqli = HeatingEntryModel::connectDb();
+		$mysqli = MeterReadingModel::connectDb();
 
 		//If property $id is null, this is a new entry that needs to be inserted.
 		if (is_null($this->id))
 		{
 
-			$sql = 'INSERT INTO heating_entry (entry_date, heating, water) VALUES (?, ?, ?)';
+			$sql = 'INSERT INTO meter_reading (reading_ts, heating, water) VALUES (?, ?, ?)';
 
 			$stmt = $mysqli->prepare($sql);
 
 			if ($stmt === false)
 				throw new Exception("prepare() failed: " . $mysqli->error);
 
-			$bp = $stmt->bind_param("sdd", $this->entryDate, $this->heating, $this->water);
+			$bp = $stmt->bind_param("sdd", $this->readingTs, $this->heating, $this->water);
 
 			if ($bp === false)
 				throw new Exception("bind_param() failed: " . $stmt->error);
@@ -47,30 +47,30 @@ class HeatingEntryModel
 
 	public static function createFromArray($array)
 	{
-		if (!array_key_exists('entryDate', $array) || !array_key_exists('heating', $array) || !array_key_exists('water', $array))
+		if (!array_key_exists('readingTs', $array) || !array_key_exists('heating', $array) || !array_key_exists('water', $array))
 			throw new Exception("Invalid data given in createFromArray.");
 
-		$entryDateArr = $array['entryDate'];
+		$readingTsArr = $array['readingTs'];
 
-		if (!is_array($entryDateArr))
-			throw new Exception("Invalid entryDate - not an array.");
+		if (!is_array($readingTsArr))
+			throw new Exception("Invalid readingTs - not an array.");
 
-		if (!array_key_exists('year', $entryDateArr)
-			|| !array_key_exists('month', $entryDateArr)
-			|| !array_key_exists('day', $entryDateArr)
-			|| !array_key_exists('hour', $entryDateArr)
-			|| !array_key_exists('minute', $entryDateArr)
-			|| !array_key_exists('second', $entryDateArr))
-			throw new Exception("Invalid entryDate - not all required keys given.");
+		if (!array_key_exists('year', $readingTsArr)
+			|| !array_key_exists('month', $readingTsArr)
+			|| !array_key_exists('day', $readingTsArr)
+			|| !array_key_exists('hour', $readingTsArr)
+			|| !array_key_exists('minute', $readingTsArr)
+			|| !array_key_exists('second', $readingTsArr))
+			throw new Exception("Invalid readingTs - not all required keys given.");
 
-		$entry = new HeatingEntryModel();
+		$entry = new MeterReadingModel();
 
-		$entry->entryDate = $entryDateArr['year'] .'-'
-		.$entryDateArr['month'] .'-'
-		.$entryDateArr['day'] .' '
-		.$entryDateArr['hour'] .':'
-		.$entryDateArr['minute'] .':'
-		.$entryDateArr['second'];
+		$entry->readingTs = $readingTsArr['year'] .'-'
+		.$readingTsArr['month'] .'-'
+		.$readingTsArr['day'] .' '
+		.$readingTsArr['hour'] .':'
+		.$readingTsArr['minute'] .':'
+		.$readingTsArr['second'];
 
 		$entry->heating = $array['heating'];
 		$entry->water = $array['water'];
@@ -78,34 +78,34 @@ class HeatingEntryModel
 		return $entry;
 	}
 
-	public static function loadByEntryDate($fromDate, $toDate)
+	public static function loadByreadingTs($fromDate, $toDate)
 	{
-		$mysqli = HeatingEntryModel::connectDb();
+		$mysqli = MeterReadingModel::connectDb();
 
 		$heatingEntries = array();
 
-		$sql = "SELECT * FROM heating_entry";
+		$sql = "SELECT * FROM meter_reading";
 		$fromDateStr = '';
 		$toDateStr = '';
 		
 		if (!is_null($fromDate) && !is_null($toDate))
 		{
-			$sql .= " WHERE entry_date BETWEEN ? AND ?";
+			$sql .= " WHERE reading_ts BETWEEN ? AND ?";
 			$fromDateStr = $fromDate->format('Y-m-d H:i:s');
 			$toDateStr = $toDate->format('Y-m-d H:i:s');
 		}
 		elseif (!is_null($fromDate)) 
 		{
-			$sql .= " WHERE entry_date >= ?";
+			$sql .= " WHERE reading_ts >= ?";
 			$fromDateStr = $fromDate->format('Y-m-d H:i:s');
 		}
 		elseif (!is_null($toDate)) 
 		{
-			$sql .= " WHERE entry_date <= ?";
+			$sql .= " WHERE reading_ts <= ?";
 			$toDateStr = $toDate->format('Y-m-d H:i:s');
 		}
 
-		$sql .= " ORDER BY entry_date";
+		$sql .= " ORDER BY reading_ts";
 		$stmt = $mysqli->prepare($sql);
 
 		if ($stmt === false)
@@ -144,11 +144,11 @@ class HeatingEntryModel
 		$indx = 0;
 
 		while ($row = $result->fetch_assoc()) {
-			$heatingEntry = new HeatingEntryModel();
+			$heatingEntry = new MeterReadingModel();
 			$heatingEntry->id = $row["id"];
 			$heatingEntry->heating = $row["heating"];
 			$heatingEntry->water = $row["water"];
-			$heatingEntry->entryDate = $row["entry_date"];
+			$heatingEntry->readingTs = $row["reading_ts"];
 
 			$heatingEntries[$indx++] = $heatingEntry;
 		}
@@ -160,14 +160,14 @@ class HeatingEntryModel
 
 	public static function loadById($id)
 	{
-		return new HeatingEntryModel();
+		return new MeterReadingModel();
 	}
 
 	public static function deleteById($id)
 	{
-		$mysqli = HeatingEntryModel::connectDb();
+		$mysqli = MeterReadingModel::connectDb();
 
-		$sql = 'DELETE FROM heating_entry WHERE id = ?';
+		$sql = 'DELETE FROM meter_reading WHERE id = ?';
 
 		$stmt = $mysqli->prepare($sql);
 

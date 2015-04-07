@@ -17,6 +17,6 @@ mphasApp.config(['$routeProvider',
 		});
 	}]);
 
-mphasApp.factory('HeatingEntries', ['$resource', function($resource){
-	return $resource('/mphas/server/HeatingEntries/:entryId', null, {});
+mphasApp.factory('MeterReadings', ['$resource', function($resource){
+	return $resource('/mphas/server/MeterReadings/:entryId', null, {});
 }])

@@ -1,6 +1,6 @@
 <?php
 
-class HeatingEntriesController extends BaseController
+class MeterReadingsController extends BaseController
 {
 
 	public function getAction($request)
@@ -13,21 +13,21 @@ class HeatingEntriesController extends BaseController
 		try
 		{
 			$data = array();
-			foreach (HeatingEntryModel::loadByEntryDate(null, null) as $heatingEntry)
+			foreach (MeterReadingModel::loadByreadingTs(null, null) as $heatingEntry)
 			{
-				$entryDateTime = DateTime::createFromFormat('Y-m-d H:i:s', $heatingEntry->entryDate);
+				$readingTsTime = DateTime::createFromFormat('Y-m-d H:i:s', $heatingEntry->readingTs);
 
-				$entryDateArr = array(
-					'year' => $entryDateTime->format('Y'),
-					'month' => $entryDateTime->format('m'),
-					'day' => $entryDateTime->format('d'),
-					'hour' => $entryDateTime->format('H'),
-					'minute' => $entryDateTime->format('i'),
-					'second' => $entryDateTime->format('s'));
+				$readingTsArr = array(
+					'year' => $readingTsTime->format('Y'),
+					'month' => $readingTsTime->format('m'),
+					'day' => $readingTsTime->format('d'),
+					'hour' => $readingTsTime->format('H'),
+					'minute' => $readingTsTime->format('i'),
+					'second' => $readingTsTime->format('s'));
 
 				$viewEntry = array(
 					'id' => $heatingEntry->id,
-					'entryDate' => $entryDateArr,
+					'readingTs' => $readingTsArr,
 					'heating' => $heatingEntry->heating,
 					'water' => $heatingEntry->water);
 
@@ -50,7 +50,7 @@ class HeatingEntriesController extends BaseController
 
 		try
 		{
-			$entry = HeatingEntryModel::createFromArray($request->parameters);	
+			$entry = MeterReadingModel::createFromArray($request->parameters);	
 
 			$entry->save();
 
@@ -74,7 +74,7 @@ class HeatingEntriesController extends BaseController
 
 		$entryId = (int)$request->url_elements[2];
 
-		HeatingEntryModel::deleteById($entryId);
+		MeterReadingModel::deleteById($entryId);
 
 		try
 		{
