@@ -22,7 +22,7 @@ mphasApp.service('DataFormatService', function(){
 		+ this.pad(date.getSeconds(), 2);
 	},
 
-	this.dateUTCToArray = function(date)
+	this.dateToArray = function(date)
 	{
 		if (Object.prototype.toString.call(date) !== '[object Date]')
 		{
@@ -30,24 +30,23 @@ mphasApp.service('DataFormatService', function(){
 		}
 
 		var dateArray = {};
-		dateArray['year'] = date.getUTCFullYear();
-		dateArray['month'] = date.getUTCMonth();
-		dateArray['day'] = date.getUTCDate();
-		dateArray['hour'] = date.getUTCHours();
-		dateArray['minute'] = date.getUTCMinutes();
-		dateArray['second'] = date.getUTCSeconds();
+		dateArray['year'] = date.getFullYear();
+		dateArray['month'] = date.getMonth() + 1;
+		dateArray['day'] = date.getDate();
+		dateArray['hour'] = date.getHours();
+		dateArray['minute'] = date.getMinutes();
+		dateArray['second'] = date.getSeconds();
 		return dateArray;
 	},
 
-	this.dateUTCFromArray = function(dateArr)
+	this.dateFromArray = function(dateArr)
 	{
-		return new Date(Date.UTC(
+		return new Date(
 			dateArr.year,
-			dateArr.month,
+			dateArr.month - 1,
 			dateArr.day,
 			dateArr.hour,
 			dateArr.minute,
-			dateArr.second)
-			);
+			dateArr.second);
 	}
 });

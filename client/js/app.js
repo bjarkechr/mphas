@@ -12,6 +12,10 @@ mphasApp.config(['$routeProvider',
 			templateUrl: 'partials/add-entry.html',
 			controller: 'AddEntryCtrl'
 		}).
+		when('/addmulti', {
+			templateUrl: 'partials/add_multible_readings.html',
+			controller: 'AddMultibleReadingsCtrl'
+		}).
 		otherwise({
 			redirectTo: '/addentry'
 		});

@@ -1,0 +1,49 @@
+
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4>Add meter readings</h4></div>
+  <div class="panel-body">
+
+    <ul class="nav nav-pills">
+      <li role="presentation"><a href="#/addentry">Single</a></li>
+      <li role="presentation" class="active"><a href="#/addmulti">Multible</a></li>
+    </ul>
+
+    <form name="formMulti" role="form" ng-submit="addMultibleReadings()" novalidate>
+      <div class="form-group {{formMulti.readingsText.$invalid ? 'has-error' : ''}}">
+        <label for="heatingText">Readings</label>
+        <textarea ng-model="multiReadingsText" class="form-control" rows="6" name="readingsText" required></textarea>
+        <span class="help-block" ng-show="formMulti.readingsText.$error.required">Required</span>
+      </div>
+
+      <button type="submit" ng-disabled="formMulti.$invalid" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-ok"></span> Add</button>
+    </form>    
+
+      <!--
+      </tab>
+
+      <tab heading="Multi" active="tabActivity[1]">
+        <br>
+        
+        <form name="formMulti" role="form" ng-submit="addMultibleReadings()" novalidate>
+          <div class="form-group {{formMulti.readingsText.$invalid ? 'has-error' : ''}}">
+            <label for="heatingText">Readings</label>
+            <textarea ng-model="multiReadingsText" class="form-control" rows="6" name="readingsText" required></textarea>
+            <span class="help-block" ng-show="formMulti.readingsText.$error.required">Required</span>
+          </div>
+
+          <button type="submit" ng-disabled="formMulti.$invalid" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-ok"></span> Add</button>
+        </form>    
+      
+
+      </tab>
+
+    </tabset>
+
+  -->
+
+
+
+
+
+</div>
+</div>
