@@ -1,37 +1,40 @@
 <?php
 
-class HeatingEntryModel
+class MeterResetModel
 {
 
 	//Properties
 	public $id;
-	public $heating;
-	public $water;
-	public $entryDate;
+	public $heatingReset;
+    public $heatingValueReset;
+	public $waterReset;
+    public $waterValueReset;
+	public $resetTs;
 
 	function __construct()
 	{
-		$this->heating = 0;
-		$this->water = 0;
-		
+		$this->heatingReset = 0;
+		$this->heatingValueReset = 0;
+		$this->waterReset = 0;
+		$this->waterValueReset = 0;		
 	}
 
 	public function save()
 	{
-		$mysqli = HeatingEntryModel::connectDb();
+		$mysqli = MeterResetModel::connectDb();
 
 		//If property $id is null, this is a new entry that needs to be inserted.
 		if (is_null($this->id))
 		{
 
-			$sql = 'INSERT INTO heating_entry (entry_date, heating, water) VALUES (?, ?, ?)';
+			$sql = 'INSERT INTO meter_reset (reset_ts, heating_reset, heating_value_reset, water_reset, water_value_reset) VALUES (?, ?, ?, ?, ?)';
 
 			$stmt = $mysqli->prepare($sql);
 
 			if ($stmt === false)
 				throw new Exception("prepare() failed: " . $mysqli->error);
 
-			$bp = $stmt->bind_param("sdd", $this->entryDate, $this->heating, $this->water);
+			$bp = $stmt->bind_param("sdd", $this->resetTs, $this->heatingReset, $this->heatingValueReset, $this->waterReset, $this->waterValueReset);
 
 			if ($bp === false)
 				throw new Exception("bind_param() failed: " . $stmt->error);
@@ -47,65 +50,69 @@ class HeatingEntryModel
 
 	public static function createFromArray($array)
 	{
-		if (!array_key_exists('entryDate', $array) || !array_key_exists('heating', $array) || !array_key_exists('water', $array))
+		if (!array_key_exists('resetTs', $array) || !array_key_exists('heatingReset', $array) 
+            || !array_key_exists('heatingValueReset', $array) || !array_key_exists('waterReset', $array) 
+            || !array_key_exists('waterValueReset', $array))
 			throw new Exception("Invalid data given in createFromArray.");
 
-		$entryDateArr = $array['entryDate'];
+		$resetTsArr = $array['resetTs'];
 
-		if (!is_array($entryDateArr))
-			throw new Exception("Invalid entryDate - not an array.");
+		if (!is_array($resetTsArr))
+			throw new Exception("Invalid resetTs - not an array.");
 
-		if (!array_key_exists('year', $entryDateArr)
-			|| !array_key_exists('month', $entryDateArr)
-			|| !array_key_exists('day', $entryDateArr)
-			|| !array_key_exists('hour', $entryDateArr)
-			|| !array_key_exists('minute', $entryDateArr)
-			|| !array_key_exists('second', $entryDateArr))
-			throw new Exception("Invalid entryDate - not all required keys given.");
+		if (!array_key_exists('year', $resetTsArr)
+			|| !array_key_exists('month', $resetTsArr)
+			|| !array_key_exists('day', $resetTsArr)
+			|| !array_key_exists('hour', $resetTsArr)
+			|| !array_key_exists('minute', $resetTsArr)
+			|| !array_key_exists('second', $resetTsArr))
+			throw new Exception("Invalid resetTs - not all required keys given.");
 
-		$entry = new HeatingEntryModel();
+		$entry = new MeterResetModel();
 
-		$entry->entryDate = $entryDateArr['year'] .'-'
-		.$entryDateArr['month'] .'-'
-		.$entryDateArr['day'] .' '
-		.$entryDateArr['hour'] .':'
-		.$entryDateArr['minute'] .':'
-		.$entryDateArr['second'];
+		$entry->resetTs = $resetTsArr['year'] .'-'
+		.$resetTsArr['month'] .'-'
+		.$resetTsArr['day'] .' '
+		.$resetTsArr['hour'] .':'
+		.$resetTsArr['minute'] .':'
+		.$resetTsArr['second'];
 
-		$entry->heating = $array['heating'];
-		$entry->water = $array['water'];
+		$entry->heatingReset = $array['heatingReset'];
+        $entry->heatingValueReset = $array['heatingValueReset'];
+		$entry->waterReset = $array['waterReset'];
+        $entry->waterValueReset = $array['waterValueReset'];
 
 		return $entry;
 	}
 
-	public static function loadByEntryDate($fromDate, $toDate)
+	public static function loadByResetTs($fromDate, $toDate)
 	{
-		$mysqli = HeatingEntryModel::connectDb();
+		$mysqli = MeterResetModel::connectDb();
 
-		$heatingEntries = array();
+		$resetEntries = array();
 
-		$sql = "SELECT * FROM heating_entry";
+		$sql = "SELECT * FROM meter_reset";
 		$fromDateStr = '';
 		$toDateStr = '';
 		
 		if (!is_null($fromDate) && !is_null($toDate))
 		{
-			$sql .= " WHERE entry_date BETWEEN ? AND ?";
+			$sql .= " WHERE reset_ts BETWEEN ? AND ?";
 			$fromDateStr = $fromDate->format('Y-m-d H:i:s');
 			$toDateStr = $toDate->format('Y-m-d H:i:s');
 		}
 		elseif (!is_null($fromDate)) 
 		{
-			$sql .= " WHERE entry_date >= ?";
+			$sql .= " WHERE reset_ts >= ?";
 			$fromDateStr = $fromDate->format('Y-m-d H:i:s');
 		}
 		elseif (!is_null($toDate)) 
 		{
-			$sql .= " WHERE entry_date <= ?";
+			$sql .= " WHERE reset_ts <= ?";
 			$toDateStr = $toDate->format('Y-m-d H:i:s');
 		}
 
-		$sql .= " ORDER BY entry_date";
+		$sql .= " ORDER BY reset_ts";
 		$stmt = $mysqli->prepare($sql);
 
 		if ($stmt === false)
@@ -144,30 +151,27 @@ class HeatingEntryModel
 		$indx = 0;
 
 		while ($row = $result->fetch_assoc()) {
-			$heatingEntry = new HeatingEntryModel();
-			$heatingEntry->id = $row["id"];
-			$heatingEntry->heating = $row["heating"];
-			$heatingEntry->water = $row["water"];
-			$heatingEntry->entryDate = $row["entry_date"];
+			$resetEntry = new MeterReadingModel();
+			$resetEntry->id = $row["id"];
+			$resetEntry->heatingReset = $row["heating_reset"];
+            $resetEntry->heatingValueReset = $row["heating_value_reset"];
+			$resetEntry->waterReset = $row["water_reset"];
+            $resetEntry->waterValueReset = $row["water_value_reset"];
+			$resetEntry->resetTs = $row["reset_ts"];
 
-			$heatingEntries[$indx++] = $heatingEntry;
+			$resetEntries[$indx++] = $resetEntry;
 		}
 
 		$stmt->close();
 
-		return $heatingEntries;
-	}
-
-	public static function loadById($id)
-	{
-		return new HeatingEntryModel();
+		return $resetEntries;
 	}
 
 	public static function deleteById($id)
 	{
-		$mysqli = HeatingEntryModel::connectDb();
+		$mysqli = MeterResetModel::connectDb();
 
-		$sql = 'DELETE FROM heating_entry WHERE id = ?';
+		$sql = 'DELETE FROM meter_reset WHERE id = ?';
 
 		$stmt = $mysqli->prepare($sql);
 

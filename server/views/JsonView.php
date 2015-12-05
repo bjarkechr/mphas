@@ -2,10 +2,12 @@
 
 class JsonView extends ApiView {
 	public function render($requestResult) {
-		header('Content-Type: application/json; charset=utf8');
+        header("Access-Control-Allow-Origin: *");
+        header('Content-Type: application/json; charset=utf8');
 
 		if ($requestResult->isSuccess === true)
-			header($_SERVER["SERVER_PROTOCOL"]." 200 OK"); 
+
+            header($_SERVER["SERVER_PROTOCOL"]." 200 OK"); 
 		else
 			header($_SERVER["SERVER_PROTOCOL"]." 500 Internal Server Error"); 
 

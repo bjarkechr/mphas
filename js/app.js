@@ -6,21 +6,21 @@ var mphasApp = angular.module('mphasApp', [
 	]);
 
 mphasApp.config(['$routeProvider',
-	function($routeProvider) {
-		$routeProvider.
-		when('/addentry', {
-			templateUrl: 'partials/add-entry.html',
-			controller: 'AddEntryCtrl'
-		}).
-		when('/addmulti', {
-			templateUrl: 'partials/add_multible_readings.html',
-			controller: 'AddMultibleReadingsCtrl'
-		}).
-		otherwise({
-			redirectTo: '/addentry'
-		});
+	function ($routeProvider) {
+        $routeProvider.
+        when('/addentry', {
+            templateUrl: 'partials/add-entry.html',
+            controller: 'AddEntryCtrl'
+        }).
+        when('/addmulti', {
+            templateUrl: 'partials/add_multible_readings.html',
+            controller: 'AddMultibleReadingsCtrl'
+        }).
+        otherwise({
+            redirectTo: '/addentry'
+        });
 	}]);
 
-mphasApp.factory('MeterReadings', ['$resource', function($resource){
-	return $resource('/mphas/server/MeterReadings/:entryId', null, {});
+mphasApp.factory('MeterReadings', ['$resource', function ($resource) {
+    return $resource('http://bjarkechr.dk/mphas/server/MeterReadings/:entryId', null, {});
 }])

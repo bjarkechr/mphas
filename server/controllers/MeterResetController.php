@@ -1,6 +1,6 @@
 <?php
 
-class HeatingEntriesController extends BaseController
+class MeterResetController extends BaseController
 {
 
 	public function getAction($request)
@@ -13,23 +13,25 @@ class HeatingEntriesController extends BaseController
 		try
 		{
 			$data = array();
-			foreach (MeterReadingModel::loadByreadingTs(null, null) as $heatingEntry)
+			foreach (MeterResetModel::loadByResetTs(null, null) as $resetEntry)
 			{
-				$readingTsTime = DateTime::createFromFormat('Y-m-d H:i:s', $heatingEntry->readingTs);
+				$resetTsTime = DateTime::createFromFormat('Y-m-d H:i:s', $resetEntry->resetTs);
 
-				$readingTsArr = array(
-					'year' => $readingTsTime->format('Y'),
-					'month' => $readingTsTime->format('m'),
-					'day' => $readingTsTime->format('d'),
-					'hour' => $readingTsTime->format('H'),
-					'minute' => $readingTsTime->format('i'),
-					'second' => $readingTsTime->format('s'));
+				$resetTsArr = array(
+					'year' => $resetTsTime->format('Y'),
+					'month' => $resetTsTime->format('m'),
+					'day' => $resetTsTime->format('d'),
+					'hour' => $resetTsTime->format('H'),
+					'minute' => $resetTsTime->format('i'),
+					'second' => $resetTsTime->format('s'));
 
 				$viewEntry = array(
-					'id' => $heatingEntry->id,
-					'readingTs' => $readingTsArr,
-					'heating' => $heatingEntry->heating,
-					'water' => $heatingEntry->water);
+					'id' => $resetEntry->id,
+					'resetTs' => $resetTsArr,
+					'heatingReset' => $resetEntry->heatingReset,
+                    'heatingValueReset' => $resetEntry->heatingValueReset,
+					'waterReset' => $resetEntry->waterReset,
+                    'waterValueReset' => $resetEntry->waterValueReset);
 
 				$data[] = $viewEntry;
 			}
@@ -50,7 +52,7 @@ class HeatingEntriesController extends BaseController
 
 		try
 		{
-			$entry = MeterReadingModel::createFromArray($request->parameters);	
+			$entry = MeterResetModel::createFromArray($request->parameters);	
 
 			$entry->save();
 
@@ -74,7 +76,7 @@ class HeatingEntriesController extends BaseController
 
 		$entryId = (int)$request->url_elements[2];
 
-		MeterReadingModel::deleteById($entryId);
+		MeterResetModel::deleteById($entryId);
 
 		try
 		{
