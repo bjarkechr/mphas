@@ -1,46 +1,5 @@
 var mphasControllers = angular.module('mphasControllers', []);
 
-mphasControllers.controller('AddEntryCtrl', ['$scope', 'MeterReadings', 'DataFormatService', '$window', '$rootScope',
-	function ($scope, MeterReadings, DataFormatService, $window, $rootScope) {
-
-        $scope.useCustomreadingTsDate = false;
-        $scope.readingTsDate = new Date();
-        $scope.readingTsTime = new Date();
-
-        $scope.addSingleEntry = function () {
-            var newEntry = new MeterReadings();
-
-            var date = new Date();
-
-            if ($scope.useCustomreadingTsDate) {
-                date = new Date(
-                    $scope.readingTsDate.getFullYear(),
-                    $scope.readingTsDate.getMonth(),
-                    $scope.readingTsDate.getDate(),
-                    $scope.readingTsTime.getHours(),
-                    $scope.readingTsTime.getMinutes(),
-                    $scope.readingTsTime.getSeconds());
-            }
-
-            var dateArr = DataFormatService.dateToArray(date);
-
-            newEntry.readingTs = dateArr;
-            newEntry.heating = $scope.heatingText;
-            newEntry.water = $scope.waterText;
-
-            console.log($scope.heatingText);
-
-            newEntry.$save(function () {
-                    $rootScope.$broadcast('requery');
-
-                    $window.alert('Added entry.')
-                },
-                function (httpResponse) {
-                    $window.alert(httpResponse.data.message);
-                });
-        };
-
-	}]);
 
 mphasControllers.controller('OutputReadingsCtrl', ['$scope', 'MeterReadings', 'DataFormatService', '$window',
 	function ($scope, MeterReadings, DataFormatService, $window) {
