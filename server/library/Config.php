@@ -17,7 +17,7 @@ class Config
     }
 }
 
-Config::set("db_host", "mydb10.surftown.dk");
-Config::set("db_db_name", "bjarkec_mphas");
-Config::set("db_username", "bjarkec_mphas");
+Config::set("db_host", "localhost");
+Config::set("db_db_name", "bjarbckn_mphas");
+Config::set("db_username", "bjarbckn_mphas");
 Config::set("db_password", "mphas4Life");

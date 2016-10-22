@@ -22,5 +22,5 @@ mphasApp.config(['$routeProvider',
 	}]);
 
 mphasApp.factory('MeterReadings', ['$resource', function ($resource) {
-    return $resource('http://bjarkechr.dk/mphas/server/MeterReadings/:entryId', null, {});
+    return $resource('http://bjarkechr.dk/mphas/server/index.php/MeterReadings/:entryId', null, {});
 }])

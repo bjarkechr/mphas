@@ -1,0 +1,16 @@
+{
+    "remotePath": "./public_html/mphas",
+    "host": "server103.web-hosting.com",
+    "username": "bjarbckn",
+    "password": "efCKM8jhfySNQ",
+    "port": 21098,
+    "protocol": "sftp",
+    "uploadOnSave": true,
+    "passive": false,
+    "debug": false,
+    "privateKeyPath": null,
+    "ignore": [
+        "\\.vscode",
+        "\\.git"
+    ]
+}
