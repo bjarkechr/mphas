@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MeterReadingsService } from './shared/meter-readings.service';
+import { MeterReading } from './shared/meter-reading';
 
 @Component({
     selector: 'meter-readings',
@@ -6,7 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class MeterReadingsComponent implements OnInit {
-    constructor() { }
 
-    ngOnInit() { }
+    meterReadings: MeterReading[];
+
+    constructor(private readingsService: MeterReadingsService) { }
+
+    getMeterReadings(): void {
+        this.readingsService.getMeterReadings()
+            .then(readings => this.meterReadings = readings);
+    }
+
+    ngOnInit() {
+
+        this.getMeterReadings();
+
+    }
 }

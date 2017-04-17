@@ -1,1 +1,7 @@
 <h1>Hi from meter readings!</h1>
+
+<ul>
+    <li *ngFor="let reading of meterReadings">
+        {{reading.id}} {{reading.readingTs.toString()}}
+    </li>
+</ul>
