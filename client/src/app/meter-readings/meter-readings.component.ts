@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+
 import { MeterReadingsService } from './shared/meter-readings.service';
 import { MeterReading } from './shared/meter-reading';
 
 @Component({
     selector: 'meter-readings',
-    templateUrl: './meter-readings.component.html'
+    templateUrl: './meter-readings.component.html',
+    styleUrls: ['./meter-readings.component.css']
 })
 
 export class MeterReadingsComponent implements OnInit {
