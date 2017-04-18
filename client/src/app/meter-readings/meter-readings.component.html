@@ -6,31 +6,17 @@
     <div class="app-content">
 
         <md-card>
-            <!--<button md-button>FLAT</button>
-            <button md-raised-button md-tooltip="This is a tooltip!">RAISED</button>
-            <button md-raised-button color="primary">PRIMARY RAISED</button>
-            <button md-raised-button color="accent">ACCENT RAISED</button>-->
+            <meter-reading-list [meterReadings]="meterReadings"></meter-reading-list>
         </md-card>
 
         <md-card>
-            <i class="material-icons">face</i>
+            <!--<i class="material-icons">face</i>-->
         </md-card>
 
         <md-card>
-            Hello!
+            
         </md-card>
 
 
     </div>
 </md-sidenav-container>
-
-<!-- primary content -->
-
-
-
-
-<!--<ul>
-    <li *ngFor="let reading of meterReadings">
-        {{reading.id}} {{reading.readingTs.toString()}}
-    </li>
-</ul>-->

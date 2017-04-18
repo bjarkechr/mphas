@@ -7,6 +7,7 @@ import { MdInputModule, MdCardModule, MdButtonModule, MdSidenavModule, MdToolbar
 import { SharedModule } from '../shared/shared.module';
 import { MeterReadingsComponent } from './meter-readings.component';
 import { MeterReadingsService } from './shared/meter-readings.service';
+import { MeterReadingListComponent } from './meter-reading-list/meter-reading-list.component';
 
 @NgModule({
     imports: [
@@ -16,11 +17,14 @@ import { MeterReadingsService } from './shared/meter-readings.service';
         MdInputModule,
         MdCardModule,
         MdButtonModule,
-        MdSidenavModule, 
+        MdSidenavModule,
         MdToolbarModule
     ],
     exports: [MeterReadingsComponent],
-    declarations: [MeterReadingsComponent],
+    declarations: [
+        MeterReadingsComponent,
+        MeterReadingListComponent
+    ],
     providers: [MeterReadingsService],
 })
 export class MeterReadingsModule { }
