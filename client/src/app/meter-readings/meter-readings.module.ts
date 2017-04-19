@@ -8,6 +8,7 @@ import { SharedModule } from '../shared/shared.module';
 import { MeterReadingsComponent } from './meter-readings.component';
 import { MeterReadingsService } from './shared/meter-readings.service';
 import { MeterReadingListComponent } from './meter-reading-list/meter-reading-list.component';
+import { AddMeterReadingComponent } from './add-meter-reading/add-meter-reading.component';
 
 @NgModule({
     imports: [
@@ -23,7 +24,8 @@ import { MeterReadingListComponent } from './meter-reading-list/meter-reading-li
     exports: [MeterReadingsComponent],
     declarations: [
         MeterReadingsComponent,
-        MeterReadingListComponent
+        MeterReadingListComponent,
+        AddMeterReadingComponent
     ],
     providers: [MeterReadingsService],
 })

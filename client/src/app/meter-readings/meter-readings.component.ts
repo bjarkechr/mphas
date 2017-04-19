@@ -20,9 +20,11 @@ export class MeterReadingsComponent implements OnInit {
             .then(readings => this.meterReadings = readings);
     }
 
+    onMeterReadingAdded(meterReading: MeterReading) {
+
+    }
+
     ngOnInit() {
-
         this.getMeterReadings();
-
     }
 }

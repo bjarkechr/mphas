@@ -26,7 +26,6 @@ export class MeterReadingListComponent implements OnInit {
   private filterAndSortReadings(meterReadings: MeterReading[]) {
     var readings = meterReadings;
 
-
     if (readings) {
       // Sort meter readings by date descending.
       readings.sort((ra, rb) => rb.readingTs.getTime() - ra.readingTs.getTime());
@@ -37,6 +36,11 @@ export class MeterReadingListComponent implements OnInit {
       }
     }
     this.filteredMeterReadings = readings;
+  }
+
+  toggleListAll() {
+    this.listAll = !this.listAll;
+    this.filterAndSortReadings(this.meterReadings);
   }
 
   ngOnInit() {

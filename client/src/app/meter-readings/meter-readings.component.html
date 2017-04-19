@@ -6,17 +6,15 @@
     <div class="app-content">
 
         <md-card>
+            <add-meter-reading (meterReadingAdded)="onMeterReadingAdded($event)"></add-meter-reading>
+        </md-card>
+
+        <md-card>
             <meter-reading-list [meterReadings]="meterReadings"></meter-reading-list>
         </md-card>
 
         <md-card>
-            <!--<i class="material-icons">face</i>-->
+
         </md-card>
-
-        <md-card>
-            
-        </md-card>
-
-
     </div>
 </md-sidenav-container>

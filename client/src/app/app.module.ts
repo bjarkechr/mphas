@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
+import 'hammerjs';
+
 /* Feature Modules */
 import { MeterReadingsModule } from './meter-readings/meter-readings.module';
 
