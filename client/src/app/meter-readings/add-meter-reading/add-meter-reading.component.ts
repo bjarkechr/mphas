@@ -1,9 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { MeterReadingsService } from './../shared/meter-readings.service';
-
 import { MeterReading } from './../shared/meter-reading';
-
 
 @Component({
   selector: 'add-meter-reading',
@@ -16,16 +14,39 @@ export class AddMeterReadingComponent implements OnInit {
 
   // this.meterReadingAdded.emit();
 
-  meterReading: MeterReading = new MeterReading();
+  meterReading: MeterReading;
+
+  // Forms input variables
+  heating: number;
+  water: number;
+  readingTsStr: string;
 
   constructor(private readingsService: MeterReadingsService) { }
 
   onSubmit() {
+    // Create meterReading object from form input variables
+    var newReading = new MeterReading();
+    newReading.heating = this.heating;
+    newReading.water = this.water;
+    newReading.readingTs = this.readingTsStr === undefined ? new Date() : new Date(this.readingTsStr);
+
+    try {
+      this.readingsService.create(newReading)
+        .then(reading => {
+          this.meterReading = reading;
+          this.meterReadingAdded.emit(this.meterReading);
+        });
+    }
+    catch (ex) {
+      console.log(ex);
+    }
 
   }
 
   newReading() {
-    this.meterReading = new MeterReading();
+    this.heating = null;
+    this.water = null;
+    this.readingTsStr = null;
   }
 
   ngOnInit() {

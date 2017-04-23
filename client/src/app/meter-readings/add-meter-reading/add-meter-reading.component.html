@@ -7,25 +7,25 @@
   <form (ngSubmit)="onSubmit()" #readerForm="ngForm">
     <div>
       <md-input-container>
-        <input type="number" mdInput required placeholder="Heating" [(ngModel)]="meterReading.heating" name="heating">
+        <input type="number" mdInput required placeholder="Heating" [(ngModel)]="heating" name="heating">
       </md-input-container>
     </div>
 
     <div>
       <md-input-container>
-        <input type="number" mdInput required placeholder="Water" [(ngModel)]="meterReading.water" name="water">
+        <input type="number" mdInput required placeholder="Water" [(ngModel)]="water" name="water">
       </md-input-container>
     </div>
 
     <div>
       <md-input-container>
-        <input type="datetime-local" mdInput placeholder="Time" [(ngModel)]="meterReading.readingTs" name="readingTs">
+        <input type="datetime-local" mdInput placeholder="Time" [(ngModel)]="readingTsStr" name="readingTs">
       </md-input-container>
     </div>
 
     <button type="submit" [disabled]="!readerForm.form.valid" md-raised-button color="primary">Add</button>
 
-    <button type="button" md-raised-button (click)="newReading(); readerForm.reset()">Clear</button>
+    <button type="button" md-raised-button (click)="newReading(); readerForm.reset();">Clear</button>
 
   </form>
 </md-card-content>

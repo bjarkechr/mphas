@@ -44,6 +44,9 @@ class MeterReadingNewModel
             if ($res === false)
                 throw new Exception("execute() failed: " . $stmt->error);
             
+            // Save newly created ID of reading.
+            $this->id = $mysqli->insert_id;
+
             $stmt->close();
         }
     }
@@ -56,7 +59,8 @@ class MeterReadingNewModel
         $readingTsStr = $array['readingTs'];
 
         // Convert string representation of date to actual php date.
-        $readingTs = DateTime::createFromFormat(DateTime::ATOM, $readingTsStr, new DateTimeZone("UTC"));
+        $readingTs = DateTime::createFromFormat(DateTime::ATOM, $readingTsStr);
+        $readingTs->setTimezone(new DateTimeZone('UTC'));
         
         $entry = new MeterReadingNewModel();
         

@@ -3,7 +3,12 @@
 class JsonView extends ApiView {
 	public function render($requestResult) {
         header("Access-Control-Allow-Origin: *");
-        header('Content-Type: application/json; charset=utf8');
+        header('Content-Type: application/json; charset=utf8', false);
+
+	  //   header('Content-Type: application/json; charset=utf8', false);
+	  header('Access-Control-Allow-Methods: POST, GET, PUT, OPTIONS, DELETE', false);
+	  header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With', false);
+
 
 		if ($requestResult->isSuccess === true)
 

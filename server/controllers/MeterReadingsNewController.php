@@ -3,90 +3,92 @@
 class MeterReadingsNewController extends BaseController
 {
 
-	public function getAction($request)
-	{
-		
-		// $fromDate = DateTime::createFromFormat('d/m/Y H:i:s', '01/08/2014 00:00:00');
-		// $toDate = DateTime::createFromFormat('d/m/Y H:i:s', '01/10/2014 00:00:00');
+	private function prepareMeterReadingForResponse($heatingEntry)
+    {
+        return array(
+            'id' => $heatingEntry->id,
+            'readingTs' => $heatingEntry->readingTs->format(DateTime::ATOM),
+            'heating' => $heatingEntry->heating,
+            'water' => $heatingEntry->water);
+    }
 
-		$requestResultModel = new RequestResultModel();
-		try
-		{
-			$data = array();
-			foreach (MeterReadingNewModel::loadByreadingTs(null, null) as $heatingEntry)
-			{
-				// $readingTsTime = DateTime::createFromFormat('Y-m-d H:i:s', $heatingEntry->readingTs);
+    public function optionsAction($request)
+    {
+        $requestResultModel = new RequestResultModel();
+        $requestResultModel->handleSuccess(null);
+        return $requestResultModel;
+    }
 
-				// $readingTsArr = array(
-				// 	'year' => $readingTsTime->format('Y'),
-				// 	'month' => $readingTsTime->format('m'),
-				// 	'day' => $readingTsTime->format('d'),
-				// 	'hour' => $readingTsTime->format('H'),
-				// 	'minute' => $readingTsTime->format('i'),
-				// 	'second' => $readingTsTime->format('s'));
+    public function getAction($request)
+    {        
+        // $fromDate = DateTime::createFromFormat('d/m/Y H:i:s', '01/08/2014 00:00:00');
+        // $toDate = DateTime::createFromFormat('d/m/Y H:i:s', '01/10/2014 00:00:00');
 
-				$viewEntry = array(
-					'id' => $heatingEntry->id,
-					'readingTs' => $heatingEntry->readingTs->format(DateTime::ATOM),
-					'heating' => $heatingEntry->heating,
-					'water' => $heatingEntry->water);
+        $requestResultModel = new RequestResultModel();
+        try
+        {
+            $data = array();
 
-				$data[] = $viewEntry;
-			}
+            foreach (MeterReadingNewModel::loadByreadingTs(null, null) as $heatingEntry)
+            {
+                $viewEntry = $this->prepareMeterReadingForResponse($heatingEntry);
 
-			$requestResultModel->handleSuccess($data);
-		}
-		catch (Exception $exception)
-		{
-			$requestResultModel->handleException($exception);
-		}
+                $data[] = $viewEntry;
+            }
 
-		return $requestResultModel;
-	}
+            $requestResultModel->handleSuccess($data);
+        }
+        catch (Exception $exception)
+        {
+            $requestResultModel->handleException($exception);
+        }
 
-	public function postAction($request)
-	{
-		$requestResultModel = new RequestResultModel();
+        return $requestResultModel;
+    }
 
-		try
-		{
-			$entry = MeterReadingNewModel::createFromArray($request->parameters);	
+    public function postAction($request)
+    {
+        $requestResultModel = new RequestResultModel();
 
-			$entry->save();
+        try
+        {
+            $entry = MeterReadingNewModel::createFromArray($request->parameters);    
 
-			$requestResultModel->handleSuccess(null);
-		}
-		catch(Exception $exception)
-		{
-			$requestResultModel->handleException($exception);
-		}
-		
-		return $requestResultModel;
-	}
+            $entry->save();
 
-	public function deleteAction($request)
-	{
-		$requestResultModel = new RequestResultModel();
+            $requestResultModel->handleSuccess($this->prepareMeterReadingForResponse($entry));
+        }
+        catch(Exception $exception)
+        {
+            $requestResultModel->handleException($exception);
+        }
+        
+        return $requestResultModel;
+    }
 
-		if(!isset($request->url_elements[2])) {
+    public function deleteAction($request)
+    {
+        $requestResultModel = new RequestResultModel();
+
+        if(!isset($request->url_elements[2])) {
             throw new Exception('No entryId given to delete.');
         }
 
-		$entryId = (int)$request->url_elements[2];
+        $entryId = (int)$request->url_elements[2];
 
-		MeterReadingNewModel::deleteById($entryId);
+        MeterReadingNewModel::deleteById($entryId);
 
-		try
-		{
-			
+        try
+        {
+            
 
-			$requestResultModel->handleSuccess(null);
-		}
-		catch(Exception $exception)
-		{
-			$requestResultModel->handleException($exception);
-		}
-		
-		return $requestResultModel;
-	}
+            $requestResultModel->handleSuccess(null);
+        }
+        catch(Exception $exception)
+        {
+            $requestResultModel->handleException($exception);
+        }
+        
+        return $requestResultModel;
+    }
 }
