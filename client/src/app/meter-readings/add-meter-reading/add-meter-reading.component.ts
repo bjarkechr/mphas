@@ -12,10 +12,6 @@ export class AddMeterReadingComponent implements OnInit {
 
   @Output() meterReadingAdded = new EventEmitter();
 
-  // this.meterReadingAdded.emit();
-
-  meterReading: MeterReading;
-
   // Forms input variables
   heating: number;
   water: number;
@@ -28,28 +24,26 @@ export class AddMeterReadingComponent implements OnInit {
     var newReading = new MeterReading();
     newReading.heating = this.heating;
     newReading.water = this.water;
-    newReading.readingTs = this.readingTsStr === undefined ? new Date() : new Date(this.readingTsStr);
+    newReading.readingTs = !this.readingTsStr ? new Date() : new Date(this.readingTsStr);
 
     try {
       this.readingsService.create(newReading)
         .then(reading => {
-          this.meterReading = reading;
-          this.meterReadingAdded.emit(this.meterReading);
+          let meterReading = reading;
+          this.meterReadingAdded.emit(meterReading);
         });
     }
     catch (ex) {
       console.log(ex);
     }
-
   }
 
   newReading() {
     this.heating = null;
     this.water = null;
-    this.readingTsStr = null;
+    this.readingTsStr = undefined;
   }
 
   ngOnInit() {
   }
-
 }

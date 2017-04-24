@@ -24,7 +24,7 @@ export class MeterReadingsService {
 
   delete(id: number): Promise<void> {
     const url = `${this.meterReadingsUrl}/${id}`;
-    return this.http.delete(url, { headers: this.headers })
+    return this.http.delete(url)
       .toPromise()
       .then(() => null)
       .catch(this.handleError);

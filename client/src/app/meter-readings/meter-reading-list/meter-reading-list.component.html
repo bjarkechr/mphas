@@ -11,7 +11,7 @@
     <md-list-item *ngFor="let reading of filteredMeterReadings">
       <div>
         <span>{{reading.readingTs | date:'dd. MMM yyyy HH:mm:ss'}} | {{reading.heating}} | {{reading.water}}</span>
-        <span><button md-icon-button color="warn"><i class="material-icons md-18">delete</i></button></span>
+        <span><button md-icon-button color="warn" (click)="deleteMeterReading(reading);"><i class="material-icons md-18">delete</i></button></span>
       </div>
     </md-list-item>
   </md-list>

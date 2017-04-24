@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
+import { MeterReadingsService } from './../shared/meter-readings.service';
 import { MeterReading } from './../shared/meter-reading';
 
 @Component({
@@ -23,10 +24,13 @@ export class MeterReadingListComponent implements OnInit {
   filteredMeterReadings: MeterReading[];
   listAll: boolean = false;
 
-  private filterAndSortReadings(meterReadings: MeterReading[]) {
-    var readings = meterReadings;
+  constructor(private readingsService: MeterReadingsService) { }
 
-    if (readings) {
+  private filterAndSortReadings() {
+    if (this.meterReadings) {
+      // Clone meterReadings
+      let readings = this.meterReadings.slice();
+
       // Sort meter readings by date descending.
       readings.sort((ra, rb) => rb.readingTs.getTime() - ra.readingTs.getTime());
 
@@ -34,27 +38,34 @@ export class MeterReadingListComponent implements OnInit {
       if (!this.listAll) {
         readings = readings.splice(0, 5);
       }
+      this.filteredMeterReadings = readings;
     }
-    this.filteredMeterReadings = readings;
+    else {
+      this.filteredMeterReadings = new Array<MeterReading>();
+    }
   }
 
   toggleListAll() {
     this.listAll = !this.listAll;
-    this.filterAndSortReadings(this.meterReadings);
+    this.filterAndSortReadings();
+  }
+
+  deleteMeterReading(meterReading: MeterReading) {
+    console.log("Delete me!: " + meterReading.id);
+
+    this.readingsService.delete(meterReading.id)
+    // TODO add event about deletion and implement this in parent component!
+      .then(() => { });
   }
 
   ngOnInit() {
     this._meterReadings
       .subscribe(r => {
-        this.filterAndSortReadings(r);
+        this.filterAndSortReadings();
       });
   }
 
   ngOnDestroy() {
-
+    this._meterReadings.unsubscribe();
   }
-
-
-
-
 }
