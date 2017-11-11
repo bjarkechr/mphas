@@ -37,14 +37,44 @@ export class MeterReadingListComponent implements OnInit {
       // Sort meter readings by date descending.
       readings.sort((ra, rb) => rb.readingTs.getTime() - ra.readingTs.getTime());
 
+      this.calculatePerDayUsage(readings);
+
       // Only take top 5 if listAll is false.
       if (!this.listAll) {
         readings = readings.splice(0, 5);
       }
+
       this.meterReadingDataSource.data = readings;
     }
     else {
       this.meterReadingDataSource.data = new Array<MeterReading>();
+    }
+  }
+
+  // Calculate heating per day and water per day
+  private calculatePerDayUsage(meterReadings: MeterReading[]) {
+    for (var i = 0; i < meterReadings.length; i++) {
+
+      // To calculate usage we need to get the previous reading.
+      // As the given array is sorted by reading time descending, we
+      // get the previous reading on the next index of the array.
+      var prevReading = meterReadings[i + 1];
+      if (prevReading !== undefined) {
+
+        var numberOfMilliseconds = (meterReadings[i].readingTs.getTime() - prevReading.readingTs.getTime());
+
+        var numberOfDays = numberOfMilliseconds / 1000 / 60 / 60 / 24;
+
+        // And rounded to only one decimal..
+        numberOfDays = Math.round(numberOfDays * 10) / 10;
+
+        var heatingDiff = meterReadings[i].heating - prevReading.heating;
+        var waterDiff = meterReadings[i].water - prevReading.water;
+
+        meterReadings[i].numberOfDaysSinceLastReading = numberOfDays;
+        meterReadings[i].heatingPerDay = Math.round((heatingDiff / numberOfDays) * 100) / 100;
+        meterReadings[i].waterPerDay = Math.round((waterDiff / numberOfDays) * 100) / 100;
+      }
     }
   }
 
@@ -70,16 +100,6 @@ export class MeterReadingListComponent implements OnInit {
 
   requestDeleteMeterReading(meterReading: MeterReading) {
     this.openDeleteDialog(meterReading);
-
-    // console.log("Delete me!: " + meterReading.id);
-    // 
-
-
-    // console.log("Index: " + index);
-
-    //this.readingsService.delete(meterReading.id)
-    // TODO add event about deletion and implement this in parent component!
-    //  .then(() => { });
   }
 
   doDeleteMeterReading(meterReading: MeterReading) {

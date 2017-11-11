@@ -47,11 +47,7 @@ export class MeterReadingsService {
     var data = res.json();
 
     for (let entry of data) {
-      var reading = new MeterReading();
-      reading.id = entry.id;
-      reading.readingTs = new Date(entry.readingTs);
-      reading.heating = entry.heating;
-      reading.water = entry.water;
+      var reading = this.dataToMeterReading(entry);
 
       readings.push(reading);
     }
@@ -60,7 +56,10 @@ export class MeterReadingsService {
 
   private extractMeterReading(res: any): MeterReading {
     var data = res.json();
+    return this.dataToMeterReading(data);
+  }
 
+  private dataToMeterReading(data: any): MeterReading {
     var reading = new MeterReading();
     reading.id = data.id;
     reading.readingTs = new Date(data.readingTs);

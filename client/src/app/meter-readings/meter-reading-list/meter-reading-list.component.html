@@ -25,6 +25,21 @@
       <mat-cell *matCellDef="let element"> {{element.water}} </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="dayDiff">
+      <mat-header-cell *matHeaderCellDef> No. days </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.numberOfDaysSinceLastReading}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="heatingDiff">
+      <mat-header-cell *matHeaderCellDef> Heating/day </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.heatingPerDay}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="waterDiff">
+      <mat-header-cell *matHeaderCellDef> Water/day </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.waterPerDay}} </mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="deleteFunc">
       <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
       <mat-cell *matCellDef="let element">
@@ -34,8 +49,8 @@
       </mat-cell>
     </ng-container>
 
-    <mat-header-row *matHeaderRowDef="['id', 'readingTs', 'heating', 'water', 'deleteFunc']"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: ['id', 'readingTs', 'heating', 'water', 'deleteFunc'];"></mat-row>
+    <mat-header-row *matHeaderRowDef="['id', 'readingTs', 'heating', 'water', 'dayDiff', 'heatingDiff', 'waterDiff', 'deleteFunc']"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: ['id', 'readingTs', 'heating', 'water', 'dayDiff', 'heatingDiff', 'waterDiff', 'deleteFunc'];"></mat-row>
 
   </mat-table>
 

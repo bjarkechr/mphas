@@ -5,4 +5,7 @@ export class MeterReading {
     readingTs: Date;
     heating: number;
     water: number;
+    numberOfDaysSinceLastReading: number;
+    heatingPerDay: number;
+    waterPerDay: number;
 }
