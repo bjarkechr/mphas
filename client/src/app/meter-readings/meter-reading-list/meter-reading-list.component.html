@@ -1,22 +1,50 @@
-<md-card-header>
-  <md-card-title>
+<mat-card-header>
+  <mat-card-title>
     <h4>List of recent readings</h4>
-  </md-card-title>
-</md-card-header>
-<md-card-content>
+  </mat-card-title>
+</mat-card-header>
+<mat-card-content>
+  <mat-table #table [dataSource]="meterReadingDataSource">
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="readingTs">
+      <mat-header-cell *matHeaderCellDef> Time </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.readingTs | date:'dd. MMM yyyy HH:mm:ss'}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="heating">
+      <mat-header-cell *matHeaderCellDef> Heat </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.heating}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="water">
+        <mat-header-cell *matHeaderCellDef> Water </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.water}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="['id', 'readingTs', 'heating', 'water']"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: ['id', 'readingTs', 'heating', 'water'];"></mat-row>
+
+  </mat-table>
+
   <!--<ul>
     <li *ngFor="let reading of filteredMeterReadings">{{reading.id}} - {{reading.readingTs | date:'dd. MMM yyyy HH:mm:ss'}}</li>
   </ul>-->
-  <md-list>
-    <md-list-item *ngFor="let reading of filteredMeterReadings">
+  <!--
+  <mat-list>
+    <mat-list-item *ngFor="let reading of filteredMeterReadings">
       <div>
         <span>{{reading.readingTs | date:'dd. MMM yyyy HH:mm:ss'}} | {{reading.heating}} | {{reading.water}}</span>
-        <span><button md-icon-button color="warn" (click)="deleteMeterReading(reading);"><i class="material-icons md-18">delete</i></button></span>
+        <span><button mat-icon-button color="warn" (click)="deleteMeterReading(reading);"><i class="material-icons mat-18">delete</i></button></span>
       </div>
-    </md-list-item>
-  </md-list>
-</md-card-content>
-<md-card-actions>
-  <button md-button color='primary' *ngIf="!listAll" (click)="toggleListAll();">Show all</button>
-  <button md-button color='primary' *ngIf="listAll" (click)="toggleListAll();">Show recent</button>
-</md-card-actions>
+    </mat-list-item>
+  </mat-list>
+-->
+</mat-card-content>
+<mat-card-actions>
+  <button mat-button color='primary' *ngIf="!listAll" (click)="toggleListAll();">Show all</button>
+  <button mat-button color='primary' *ngIf="listAll" (click)="toggleListAll();">Show recent</button>
+</mat-card-actions>

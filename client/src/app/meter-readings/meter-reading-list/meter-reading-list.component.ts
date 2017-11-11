@@ -3,6 +3,8 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { MeterReadingsService } from './../shared/meter-readings.service';
 import { MeterReading } from './../shared/meter-reading';
+import {MatTableDataSource} from '@angular/material';
+
 
 @Component({
   selector: 'meter-reading-list',
@@ -21,8 +23,8 @@ export class MeterReadingListComponent implements OnInit {
     return this._meterReadings.getValue();
   }
 
-  filteredMeterReadings: MeterReading[];
   listAll: boolean = false;
+  meterReadingDataSource = new MatTableDataSource<MeterReading>();
 
   constructor(private readingsService: MeterReadingsService) { }
 
@@ -38,10 +40,10 @@ export class MeterReadingListComponent implements OnInit {
       if (!this.listAll) {
         readings = readings.splice(0, 5);
       }
-      this.filteredMeterReadings = readings;
+      this.meterReadingDataSource.data = readings;
     }
     else {
-      this.filteredMeterReadings = new Array<MeterReading>();
+      this.meterReadingDataSource.data = new Array<MeterReading>();
     }
   }
 

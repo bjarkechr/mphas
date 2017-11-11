@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdInputModule, MdCardModule, MdButtonModule, MdSidenavModule, MdToolbarModule } from '@angular/material';
+import { MatTableModule, MatInputModule, MatCardModule, MatButtonModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
 
 import { SharedModule } from '../shared/shared.module';
 import { MeterReadingsComponent } from './meter-readings.component';
@@ -15,11 +15,12 @@ import { AddMeterReadingComponent } from './add-meter-reading/add-meter-reading.
         SharedModule,
         HttpModule,
         BrowserAnimationsModule,
-        MdInputModule,
-        MdCardModule,
-        MdButtonModule,
-        MdSidenavModule,
-        MdToolbarModule
+        MatTableModule,
+        MatInputModule,
+        MatCardModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatToolbarModule
     ],
     exports: [MeterReadingsComponent],
     declarations: [
