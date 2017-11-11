@@ -21,12 +21,21 @@
     </ng-container>
 
     <ng-container matColumnDef="water">
-        <mat-header-cell *matHeaderCellDef> Water </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.water}} </mat-cell>
-      </ng-container>
+      <mat-header-cell *matHeaderCellDef> Water </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.water}} </mat-cell>
+    </ng-container>
 
-      <mat-header-row *matHeaderRowDef="['id', 'readingTs', 'heating', 'water']"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: ['id', 'readingTs', 'heating', 'water'];"></mat-row>
+    <ng-container matColumnDef="deleteFunc">
+      <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-icon-button color="warn" (click)="requestDeleteMeterReading(element);">
+          <i class="material-icons mat-18">delete</i>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="['id', 'readingTs', 'heating', 'water', 'deleteFunc']"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: ['id', 'readingTs', 'heating', 'water', 'deleteFunc'];"></mat-row>
 
   </mat-table>
 

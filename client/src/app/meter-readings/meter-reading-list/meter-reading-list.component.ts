@@ -3,8 +3,9 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { MeterReadingsService } from './../shared/meter-readings.service';
 import { MeterReading } from './../shared/meter-reading';
-import {MatTableDataSource} from '@angular/material';
-
+import { MatTableDataSource } from '@angular/material';
+import { MeterReadingListDeletePopupComponent } from './meter-reading-list-delete-popup.component';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'meter-reading-list',
@@ -26,7 +27,7 @@ export class MeterReadingListComponent implements OnInit {
   listAll: boolean = false;
   meterReadingDataSource = new MatTableDataSource<MeterReading>();
 
-  constructor(private readingsService: MeterReadingsService) { }
+  constructor(private readingsService: MeterReadingsService, public dialog: MatDialog) { }
 
   private filterAndSortReadings() {
     if (this.meterReadings) {
@@ -52,12 +53,42 @@ export class MeterReadingListComponent implements OnInit {
     this.filterAndSortReadings();
   }
 
-  deleteMeterReading(meterReading: MeterReading) {
-    console.log("Delete me!: " + meterReading.id);
+  openDeleteDialog(meterReading: MeterReading) {
+    let dialogRef = this.dialog.open(MeterReadingListDeletePopupComponent, {
+      width: '250px',
+      data: { meterReading }
+    });
 
-    this.readingsService.delete(meterReading.id)
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+
+      if (result) {
+        this.doDeleteMeterReading(meterReading);
+      }
+    });
+  }
+
+  requestDeleteMeterReading(meterReading: MeterReading) {
+    this.openDeleteDialog(meterReading);
+
+    // console.log("Delete me!: " + meterReading.id);
+    // 
+
+
+    // console.log("Index: " + index);
+
+    //this.readingsService.delete(meterReading.id)
     // TODO add event about deletion and implement this in parent component!
-      .then(() => { });
+    //  .then(() => { });
+  }
+
+  doDeleteMeterReading(meterReading: MeterReading) {
+    this.readingsService.delete(meterReading.id)
+      .then(() => {
+        var index = this.meterReadingDataSource.data.indexOf(meterReading);
+        this.meterReadingDataSource.data.splice(index, 1);
+        this.meterReadingDataSource.data = this.meterReadingDataSource.data;
+      });
   }
 
   ngOnInit() {
